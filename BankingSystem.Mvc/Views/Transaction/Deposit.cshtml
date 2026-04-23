@@ -1,0 +1,45 @@
+@model TransactionFormViewModel
+
+@{
+    ViewData["Title"] = "Deposit";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title h4 mb-3">Deposit Funds</h2>
+                <p class="mb-1"><strong>Account:</strong> @Model.AccountNumber</p>
+                <p class="mb-4"><strong>Current Balance:</strong> @Model.CurrentBalance.ToString("C")</p>
+
+                <form asp-action="Deposit" asp-controller="Transaction" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <input asp-for="AccountId" type="hidden" />
+                    <input asp-for="AccountNumber" type="hidden" />
+                    <input asp-for="CurrentBalance" type="hidden" />
+
+                    <div class="mb-3">
+                        <label asp-for="Amount" class="form-label"></label>
+                        <input asp-for="Amount" class="form-control" />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success">Submit Deposit</button>
+                        <a class="btn btn-outline-secondary" asp-controller="Account" asp-action="Details" asp-route-id="@Model.AccountId">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

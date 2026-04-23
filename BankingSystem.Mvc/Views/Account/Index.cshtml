@@ -1,0 +1,43 @@
+@model IReadOnlyList<Account>
+
+@{
+    ViewData["Title"] = "Accounts";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-1">Accounts</h2>
+        <p class="text-muted mb-0">Browse all accounts and choose an action.</p>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Account Number</th>
+                <th>Customer</th>
+                <th>Type</th>
+                <th>Balance</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var account in Model)
+        {
+            <tr>
+                <td>@account.AccountNumber</td>
+                <td>@account.Customer?.FirstName @account.Customer?.LastName</td>
+                <td>@account.AccountType</td>
+                <td>@account.Balance.ToString("C")</td>
+                <td class="text-nowrap">
+                    <a class="btn btn-sm btn-outline-primary" asp-controller="Account" asp-action="Details" asp-route-id="@account.AccountId">Details</a>
+                    <a class="btn btn-sm btn-outline-success" asp-controller="Transaction" asp-action="Deposit" asp-route-accountId="@account.AccountId">Deposit</a>
+                    <a class="btn btn-sm btn-outline-warning" asp-controller="Transaction" asp-action="Withdraw" asp-route-accountId="@account.AccountId">Withdraw</a>
+                    <a class="btn btn-sm btn-outline-secondary" asp-controller="Transaction" asp-action="History" asp-route-accountId="@account.AccountId">History</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

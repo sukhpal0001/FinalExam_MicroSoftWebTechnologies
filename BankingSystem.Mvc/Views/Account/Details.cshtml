@@ -1,0 +1,44 @@
+@model Account
+
+@{
+    ViewData["Title"] = "Account Details";
+}
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title h4 mb-3">Account Details</h2>
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Account Number</dt>
+                    <dd class="col-sm-8">@Model.AccountNumber</dd>
+
+                    <dt class="col-sm-4">Customer</dt>
+                    <dd class="col-sm-8">@Model.Customer?.FirstName @Model.Customer?.LastName</dd>
+
+                    <dt class="col-sm-4">Email</dt>
+                    <dd class="col-sm-8">@Model.Customer?.Email</dd>
+
+                    <dt class="col-sm-4">Account Type</dt>
+                    <dd class="col-sm-8">@Model.AccountType</dd>
+
+                    <dt class="col-sm-4">Current Balance</dt>
+                    <dd class="col-sm-8 fw-semibold">@Model.Balance.ToString("C")</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title h5 mb-3">Quick Actions</h2>
+                <div class="d-grid gap-2">
+                    <a class="btn btn-success" asp-controller="Transaction" asp-action="Deposit" asp-route-accountId="@Model.AccountId">Deposit Funds</a>
+                    <a class="btn btn-warning" asp-controller="Transaction" asp-action="Withdraw" asp-route-accountId="@Model.AccountId">Withdraw Funds</a>
+                    <a class="btn btn-outline-secondary" asp-controller="Transaction" asp-action="History" asp-route-accountId="@Model.AccountId">View History</a>
+                    <a class="btn btn-outline-primary" asp-controller="Account" asp-action="Index">Back to Accounts</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
