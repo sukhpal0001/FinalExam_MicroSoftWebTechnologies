@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="BankingSystem.Api/BankingSystem.Api.csproj" />
+  <Project Path="BankingSystem.Data/BankingSystem.Data.csproj" />
+  <Project Path="BankingSystem.Mvc/BankingSystem.Mvc.csproj" />
+</Solution>
