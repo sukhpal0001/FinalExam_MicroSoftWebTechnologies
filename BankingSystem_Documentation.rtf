@@ -1,0 +1,212 @@
+{\rtf1\ansi\deff0
+{\fonttbl{\f0 Calibri;}{\f1 Consolas;}}
+\fs24
+\pard\qc\b Simplified Banking System Documentation\par
+\pard\qc Final Exam - Microsoft Web Technologies\par
+\pard\sa200\par
+
+\pard\b 1. Project Overview\b0\par
+\pard This solution contains two applications in one shared banking system. The first is an ASP.NET Core MVC web application that acts as the customer banking portal. The second is an ASP.NET Core Web API that acts as the ATM backend. Both applications share a common SQLite database through Entity Framework Core using the Code First approach.\par
+\pard\sa200\par
+
+\pard\b 2. Technologies Used\b0\par
+\pard - ASP.NET Core MVC\par
+\pard - ASP.NET Core Web API\par
+\pard - Entity Framework Core Code First\par
+\pard - SQLite database\par
+\pard - Razor Views with Tag Helpers\par
+\pard - Bootstrap\par
+\pard - Data Annotations validation\par
+\pard - Repository pattern and dependency injection\par
+\pard - Swagger UI for API testing and screenshots\par
+\pard\sa200\par
+
+\pard\b 3. Implemented Features\b0\par
+\pard - Customer accounts list with balances\par
+\pard - Account details view\par
+\pard - Deposit transaction form\par
+\pard - Withdraw transaction form\par
+\pard - Transaction history page\par
+\pard - ATM API balance endpoint\par
+\pard - ATM API deposit endpoint\par
+\pard - ATM API withdrawal endpoint\par
+\pard - ATM API transaction history endpoint\par
+\pard - Shared BankingDbContext and repository layer\par
+\pard - Seeded sample data and migration support\par
+\pard\sa200\par
+
+\pard\b 4. Models, Enums, DTOs, and View Models\b0\par
+\pard\b Entity Models\b0\par
+\pard - Customer: CustomerId, FirstName, LastName, Email, DateOfBirth\par
+\pard - Account: AccountId, AccountNumber, Balance, AccountType, CustomerId\par
+\pard - Transaction: TransactionId, Amount, TransactionType, TransactionDate, AccountId, Description, BalanceAfter\par
+\pard\par
+\pard\b Data Annotation Validation\b0\par
+\pard - Required fields on names, email, amount, and account number\par
+\pard - EmailAddress on Email\par
+\pard - StringLength on names and descriptions\par
+\pard - Range validation on Balance and Amount\par
+\pard - RegularExpression on AccountNumber using ACC-XXXXX format\par
+\pard\par
+\pard\b Enums\b0\par
+\pard - AccountType: Checking, Savings\par
+\pard - TransactionType: Deposit, Withdrawal\par
+\pard\par
+\pard\b API Request and Response DTOs\b0\par
+\pard - AtmTransactionRequest\par
+\pard - BalanceResponse\par
+\pard - TransactionResultResponse\par
+\pard - ApiErrorResponse\par
+\pard - InsufficientFundsResponse\par
+\pard - TransactionHistoryItemResponse\par
+\pard\par
+\pard\b MVC View Models\b0\par
+\pard - TransactionFormViewModel\par
+\pard - TransactionHistoryViewModel\par
+\pard\sa200\par
+
+\pard\b 5. Database Context and Data Layer\b0\par
+\pard The shared database context is BankingDbContext. It exposes DbSet collections for Customers, Accounts, and Transactions. It also configures:\par
+\pard - unique email index for Customer\par
+\pard - unique account number index for Account\par
+\pard - one-to-many relationship from Customer to Accounts\par
+\pard - one-to-many relationship from Account to Transactions\par
+\pard - seeded sample customers, accounts, and transactions\par
+\pard\par
+\pard The service layer is implemented with IBankRepository and BankRepository. This satisfies the requirement that controllers must not use DbContext directly.\par
+\pard\sa200\par
+
+\pard\b 6. MVC Controllers and Actions\b0\par
+\pard\b HomeController\b0\par
+\pard - Index(): displays the landing page\par
+\pard\par
+\pard\b AccountController\b0\par
+\pard - Index(): displays all accounts with balances\par
+\pard - Details(int id): displays a selected account\par
+\pard\par
+\pard\b TransactionController\b0\par
+\pard - Deposit GET: shows deposit form\par
+\pard - Deposit POST: validates and processes deposit\par
+\pard - Withdraw GET: shows withdrawal form\par
+\pard - Withdraw POST: validates and processes withdrawal\par
+\pard - History GET: shows account transaction history\par
+\pard\sa200\par
+
+\pard\b 7. MVC Views and Tag Helpers\b0\par
+\pard The MVC project includes the following main views:\par
+\pard - Views/Home/Index.cshtml\par
+\pard - Views/Account/Index.cshtml\par
+\pard - Views/Account/Details.cshtml\par
+\pard - Views/Transaction/Deposit.cshtml\par
+\pard - Views/Transaction/Withdraw.cshtml\par
+\pard - Views/Transaction/History.cshtml\par
+\pard - Views/Shared/_Layout.cshtml\par
+\pard\par
+\pard The forms use ASP.NET Core Tag Helpers, including asp-for, asp-action, asp-controller, asp-validation-for, and asp-validation-summary. The deposit and withdraw pages display the current account balance before the user submits an amount. The history page displays Date, Type, Amount, Description, and Balance After.\par
+\pard\sa200\par
+
+\pard\b 8. API Controller and Endpoints\b0\par
+\pard\b AtmController\b0\par
+\pard Route prefix: api/atm\par
+\pard - GET /api/atm/balance/\{accountId\}\par
+\pard - POST /api/atm/deposit\par
+\pard - POST /api/atm/withdraw\par
+\pard - GET /api/atm/transactions/\{accountId\}\par
+\pard\par
+\pard The controller returns JSON only and uses the correct HTTP status codes for success and error responses. Swagger UI is enabled so API results can be tested and captured through the browser.\par
+\pard\sa200\par
+
+\pard\b 9. Program.cs and appsettings.json\b0\par
+\pard Both applications register shared banking services through AddBankingData(builder.Configuration). The MVC app registers controllers with views and the API app registers controllers for JSON endpoints. Each application applies database migrations at startup.\par
+\pard\par
+\pard The connection string used in appsettings.json is:\par
+\pard\li720\f1 Data Source=../bankingsystem.db\f0\li0\par
+\pard\sa200\par
+
+\pard\b 10. Screenshot Checklist for Submission\b0\par
+\pard Insert your own screenshots under each heading.\par
+\pard\sa120\par
+
+\pard\b A. Working MVC Pages\b0\par
+\pard [Insert Screenshot: Deposit Page]\par
+\pard Capture the page with current balance visible above the form.\par
+\pard\par
+\pard [Insert Screenshot: Withdraw Page]\par
+\pard Capture the page with current balance visible above the form.\par
+\pard\par
+\pard [Insert Screenshot: Transaction History Page]\par
+\pard Capture the table showing Date, Type, Amount, Description, and Balance After.\par
+\pard\sa160\par
+
+\pard\b B. Swagger API Test Results\b0\par
+\pard Open Swagger UI at http://localhost:5161/swagger\par
+\pard\par
+\pard [Insert Screenshot: GET balance success 200]\par
+\pard Use accountId 1.\par
+\pard\par
+\pard [Insert Screenshot: GET balance error 404]\par
+\pard Use a missing accountId such as 999.\par
+\pard\par
+\pard [Insert Screenshot: POST deposit success 200]\par
+\pard Request body example: \{ "accountId": 1, "amount": 100, "description": "Cash deposit" \}\par
+\pard\par
+\pard [Insert Screenshot: POST deposit error 400]\par
+\pard Request body example: \{ "accountId": 1, "amount": 0, "description": "Invalid" \}\par
+\pard\par
+\pard [Insert Screenshot: POST withdraw success 200]\par
+\pard Request body example: \{ "accountId": 1, "amount": 50, "description": "ATM withdrawal" \}\par
+\pard\par
+\pard [Insert Screenshot: POST withdraw error 400 insufficient funds]\par
+\pard Request body example: \{ "accountId": 1, "amount": 999999, "description": "Invalid withdrawal" \}\par
+\pard\par
+\pard [Insert Screenshot: GET transactions success 200]\par
+\pard Use accountId 1.\par
+\pard\sa160\par
+
+\pard\b C. Controllers\b0\par
+\pard [Insert Screenshot: AccountController.cs]\par
+\pard [Insert Screenshot: TransactionController.cs]\par
+\pard [Insert Screenshot: AtmController.cs]\par
+\pard\sa160\par
+
+\pard\b D. Views, Models, Enums, and DTOs\b0\par
+\pard [Insert Screenshot: Deposit.cshtml]\par
+\pard [Insert Screenshot: Withdraw.cshtml]\par
+\pard [Insert Screenshot: History.cshtml]\par
+\pard [Insert Screenshot: Customer.cs, Account.cs, Transaction.cs]\par
+\pard [Insert Screenshot: Enums.cs]\par
+\pard [Insert Screenshot: AtmTransactionRequest.cs and response DTO classes]\par
+\pard [Insert Screenshot: TransactionFormViewModel.cs and TransactionHistoryViewModel.cs]\par
+\pard\sa160\par
+
+\pard\b E. DbContext and Configuration\b0\par
+\pard [Insert Screenshot: BankingDbContext.cs]\par
+\pard [Insert Screenshot: MVC Program.cs]\par
+\pard [Insert Screenshot: API Program.cs]\par
+\pard [Insert Screenshot: MVC appsettings.json]\par
+\pard [Insert Screenshot: API appsettings.json]\par
+\pard\sa200\par
+
+\pard\b 11. How to Take the Screenshots\b0\par
+\pard\b MVC Screenshots\b0\par
+\pard Run the MVC project and open http://localhost:5121\par
+\pard Navigate to Accounts, then open Deposit, Withdraw, and History.\par
+\pard\par
+\pard\b API Swagger Screenshots\b0\par
+\pard Run the API project and open http://localhost:5161/swagger\par
+\pard Expand each AtmController endpoint, click Try it out, enter the required values, click Execute, and capture both the response body and status code.\par
+\pard\par
+\pard\b Code Screenshots\b0\par
+\pard Open each required file in Visual Studio, make sure the file name is visible, and capture the main code section.\par
+\pard\sa200\par
+
+\pard\b 12. Final Submission Steps\b0\par
+\pard 1. Open this file in Microsoft Word.\par
+\pard 2. Insert all screenshots in the placeholder sections.\par
+\pard 3. Save a DOCX copy if needed.\par
+\pard 4. Export the final document as PDF for submission.\par
+\pard\sa200\par
+
+\pard\b 13. Conclusion\b0\par
+\pard This project satisfies the required MVC features, API features, shared EF Core data layer, repository-based dependency injection, and documentation structure. After inserting screenshots and exporting to PDF, the submission will be ready.\par
+}

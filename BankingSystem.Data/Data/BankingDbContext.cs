@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankingSystem.Data.Data;
 
+// Shared EF Core context used by both the MVC portal and the ATM API.
 public class BankingDbContext(DbContextOptions<BankingDbContext> options) : DbContext(options)
 {
     public DbSet<Customer> Customers => Set<Customer>();
@@ -13,6 +14,7 @@ public class BankingDbContext(DbContextOptions<BankingDbContext> options) : DbCo
     {
         base.OnModelCreating(modelBuilder);
 
+        // Configure unique fields and entity relationships for the banking schema.
         modelBuilder.Entity<Customer>()
             .HasIndex(customer => customer.Email)
             .IsUnique();
@@ -33,6 +35,7 @@ public class BankingDbContext(DbContextOptions<BankingDbContext> options) : DbCo
             .HasForeignKey(transaction => transaction.AccountId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        // Seed starter records so the app has data immediately after migration.
         modelBuilder.Entity<Customer>().HasData(
             new Customer
             {
